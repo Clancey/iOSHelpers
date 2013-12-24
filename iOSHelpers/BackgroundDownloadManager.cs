@@ -27,6 +27,12 @@ namespace iOSHelpers
 				Files = new Dictionary<string,BackgroundDownloadFile> ();
 			}
 		}
+		public static bool RemoveCompletedAutomatically { get; set; }
+		public static void RemoveCompleted()
+		{
+			var completed = BackgroundDownloadManager.CurrentDownloads.Where (x => x.Status == BackgroundDownloadManager.BackgroundDownloadFile.FileStatus.Completed).ToList ();
+			completed.ForEach(x=> Remove(x.Url));
+		}
 		private static void loadState()
 		{
 			if(!File.Exists(stateFile))
@@ -212,6 +218,8 @@ namespace iOSHelpers
 			var evt = FileCompleted;
 			if (evt != null)
 				evt (downloadTask, new CompletedArgs{ File = Files [url].Destination, DownloadUrl = url });
+			if (RemoveCompletedAutomatically)
+				Remove (url);
 		}
 		public static void Failed(NSUrlSession session, NSUrlSessionTask task, NSError error)
 		{

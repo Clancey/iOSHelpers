@@ -1,15 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Clancey’s iPhone 5S" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Samples/RootViewController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="iOSHelpers/BackgroundDownloadManager.cs">
     <Files>
-      <File FileName="iOSHelpers/BackgroundDownload.cs" Line="109" Column="11" />
-      <File FileName="Samples/AppDelegate.cs" Line="31" Column="58" />
+      <File FileName="iOSHelpers/BackgroundDownload.cs" Line="47" Column="1" />
+      <File FileName="Samples/AppDelegate.cs" Line="43" Column="3" />
       <File FileName="iOSHelpers/SimpleActionSheet.cs" Line="34" Column="29" />
-      <File FileName="iOSHelpers/BrightlyBlurredUIView.cs" Line="33" Column="49" />
-      <File FileName="iOSHelpers/Extensions/ImageExtensions.cs" Line="21" Column="87" />
-      <File FileName="Samples/RootViewController.cs" Line="29" Column="37" />
-      <File FileName="iOSHelpers/SimpleButton.cs" Line="22" Column="4" />
-      <File FileName="Samples/Main.cs" Line="1" Column="1" />
+      <File FileName="iOSHelpers/BrightlyBlurredUIView.cs" Line="31" Column="9" />
+      <File FileName="iOSHelpers/Extensions/ImageExtensions.cs" Line="1" Column="1" />
+      <File FileName="iOSHelpers/SimpleButton.cs" Line="1" Column="1" />
+      <File FileName="Samples/Main.cs" Line="16" Column="1" />
+      <File FileName="../../Downloads/RabbitRace-Xamarin/ZipCodes/Core/ZipCodeManager.cs" Line="1" Column="1" />
+      <File FileName="iOSHelpers/Device.cs" Line="1" Column="1" />
+      <File FileName="iOSHelpers/StackPanel.cs" Line="9" Column="21" />
+      <File FileName="../gMusicLib/gMusicLib/Locations.cs" Line="1" Column="1" />
+      <File FileName="Samples/RootViewController.cs" Line="18" Column="28" />
+      <File FileName="iOSHelpers/BackgroundDownloadManager.cs" Line="198" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

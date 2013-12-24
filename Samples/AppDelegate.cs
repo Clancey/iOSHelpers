@@ -40,6 +40,7 @@ namespace Samples
 			Console.WriteLine ("HandleEventsForBackgroundUrl");
 			BackgroundDownload.BackgroundSessionCompletionHandler = completionHandler;
 		}
+
 	}
 }
 

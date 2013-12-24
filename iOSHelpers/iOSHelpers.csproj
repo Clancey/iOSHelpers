@@ -50,5 +50,6 @@
     <Compile Include="StackPanel.cs" />
     <Compile Include="SimpleButton.cs" />
     <Compile Include="Device.cs" />
+    <Compile Include="BackgroundDownloadManager.cs" />
   </ItemGroup>
 </Project>

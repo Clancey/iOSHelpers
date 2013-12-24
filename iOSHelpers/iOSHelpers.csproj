@@ -51,5 +51,6 @@
     <Compile Include="SimpleButton.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="BackgroundDownloadManager.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
   </ItemGroup>
 </Project>

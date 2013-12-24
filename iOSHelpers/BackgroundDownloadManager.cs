@@ -12,8 +12,7 @@ namespace iOSHelpers
 	{
 		public class CompletedArgs : EventArgs
 		{
-			public string File { get; set; }
-			public string DownloadUrl { get; set; }
+			public BackgroundDownloadFile File { get; set; }
 		}
 		public static event EventHandler<CompletedArgs> FileCompleted;
 		static Dictionary<string,BackgroundDownloadFile> Files = new Dictionary<string,BackgroundDownloadFile> ();
@@ -98,7 +97,17 @@ namespace iOSHelpers
 				}
 			return list;
 		}
+		public static BackgroundDownload Download(string url, string destination)
+		{
+			return Download (new Uri (url), destination);
+		}
 
+		public static BackgroundDownload Download(Uri url, string destination)
+		{
+			var download = new BackgroundDownload ();
+			download.DownloadFileAsync (url, destination);
+			return download;
+		}
 		internal static void AddController(string url, BackgroundDownload controller)
 		{
 			lock (locker) {
@@ -217,7 +226,7 @@ namespace iOSHelpers
 			}
 			var evt = FileCompleted;
 			if (evt != null)
-				evt (downloadTask, new CompletedArgs{ File = Files [url].Destination, DownloadUrl = url });
+				evt (downloadTask, new CompletedArgs{ File = Files [url]});
 			if (RemoveCompletedAutomatically)
 				Remove (url);
 		}

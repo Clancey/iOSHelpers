@@ -8,6 +8,10 @@ namespace System
 		{
 			return Array.IndexOf (array, item);
 		}
+		public static void ForEach<T>(this T[] array, Action<T> action)
+		{
+			Array.ForEach (array, action);
+		}
 	}
 }
 

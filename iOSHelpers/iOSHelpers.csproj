@@ -52,5 +52,6 @@
     <Compile Include="Device.cs" />
     <Compile Include="BackgroundDownloadManager.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
+    <Compile Include="Extensions\NSObjectExtensions.cs" />
   </ItemGroup>
 </Project>

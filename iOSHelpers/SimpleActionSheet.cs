@@ -22,7 +22,7 @@ namespace iOSHelpers
 				{
 					UIColor color;
 					if(!colors.TryGetValue(b.Tag -1,out color))
-						return;
+						continue;
 					b.SetTitleColor(color, UIControlState.Normal);
 				}
 			};

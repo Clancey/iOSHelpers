@@ -41,6 +41,7 @@ namespace iOSHelpers
 				using (var request = new NSUrlRequest (new NSUrl (url.AbsoluteUri))) {
 					downloadTask = session.CreateDownloadTask (request);
 					downloadTask.Resume ();
+
 				}
 			}
 

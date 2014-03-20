@@ -1,24 +1,29 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Clancey’s iPhone 5S" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="iOSHelpers/BackgroundDownloadManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.0" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Samples/AppDelegate.cs">
     <Files>
-      <File FileName="iOSHelpers/BackgroundDownload.cs" Line="47" Column="1" />
-      <File FileName="Samples/AppDelegate.cs" Line="43" Column="3" />
-      <File FileName="iOSHelpers/SimpleActionSheet.cs" Line="34" Column="29" />
-      <File FileName="iOSHelpers/BrightlyBlurredUIView.cs" Line="31" Column="9" />
+      <File FileName="iOSHelpers/BackgroundDownload.cs" Line="119" Column="4" />
+      <File FileName="Samples/AppDelegate.cs" Line="35" Column="73" />
+      <File FileName="iOSHelpers/SimpleActionSheet.cs" Line="1" Column="1" />
+      <File FileName="iOSHelpers/BrightlyBlurredUIView.cs" Line="1" Column="1" />
       <File FileName="iOSHelpers/Extensions/ImageExtensions.cs" Line="1" Column="1" />
       <File FileName="iOSHelpers/SimpleButton.cs" Line="1" Column="1" />
-      <File FileName="Samples/Main.cs" Line="16" Column="1" />
+      <File FileName="Samples/Main.cs" Line="1" Column="1" />
       <File FileName="../../Downloads/RabbitRace-Xamarin/ZipCodes/Core/ZipCodeManager.cs" Line="1" Column="1" />
       <File FileName="iOSHelpers/Device.cs" Line="1" Column="1" />
-      <File FileName="iOSHelpers/StackPanel.cs" Line="9" Column="21" />
+      <File FileName="iOSHelpers/StackPanel.cs" Line="1" Column="1" />
       <File FileName="../gMusicLib/gMusicLib/Locations.cs" Line="1" Column="1" />
-      <File FileName="Samples/RootViewController.cs" Line="18" Column="28" />
+      <File FileName="Samples/RootViewController.cs" Line="45" Column="34" />
       <File FileName="iOSHelpers/BackgroundDownloadManager.cs" Line="198" Column="6" />
+      <File FileName="Samples/Info.plist" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/Clancey/Projects/iOSHelpers/Samples/AppDelegate.cs" line="35" column="117" />
+      <Breakpoint file="/Users/Clancey/Projects/iOSHelpers/Samples/AppDelegate.cs" line="47" column="1" />
+      <Breakpoint file="/Users/Clancey/Projects/iOSHelpers/Samples/AppDelegate.cs" line="41" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../gMusic-2/gMusic/Views/PopupMenu.cs" line="226" offsetX="699" offsetY="3375" expression="AppDelegate.Shared.RootViewController" liveUpdate="False" />

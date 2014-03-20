@@ -32,7 +32,8 @@ namespace Samples
 			window.RootViewController = new RootViewController ();
 			// make the window visible
 			window.MakeKeyAndVisible ();
-			var session = BackgroundDownload.BackgroundSessionCompletionHandler;
+			UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval (UIApplication.BackgroundFetchIntervalMinimum);
+
 			return true;
 		}
 		public override void HandleEventsForBackgroundUrl (UIApplication application, string sessionIdentifier, NSAction completionHandler)
@@ -40,7 +41,12 @@ namespace Samples
 			Console.WriteLine ("HandleEventsForBackgroundUrl");
 			BackgroundDownload.BackgroundSessionCompletionHandler = completionHandler;
 		}
-
+		public override void PerformFetch (UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
+		{
+			//fownload from the web.
+			Console.WriteLine ("I am downloading");
+			completionHandler (UIBackgroundFetchResult.NewData);
+		}
 	}
 }
 

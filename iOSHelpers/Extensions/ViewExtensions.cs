@@ -2,11 +2,20 @@ using System;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using MonoTouch.CoreAnimation;
+using MonoTouch.ObjCRuntime;
 
 namespace iOSHelpers
 {
 	public static class ViewExtensions
 	{
+		static readonly IntPtr selAccessibilityIdentifier_Handle = Selector.GetHandle ("accessibilityIdentifier");
+		public static UIView SetAccessibilityId(this UIView view, string id)
+		{
+			var nsId = NSString.CreateNative (id);
+			Messaging.void_objc_msgSend_IntPtr (view.Handle, selAccessibilityIdentifier_Handle, nsId);
+			return view;
+		}
+
 		public static UIView AddMotion(this UIView view, float min, float max)
 		{
 			view.AddMotionEffect ( new UIInterpolatingMotionEffect ("center.x", UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis) {

@@ -23,6 +23,7 @@ namespace iOSHelpers
 				loadState();
 			}
 			catch(Exception ex) {
+				Console.WriteLine (ex);
 				Files = new Dictionary<string,BackgroundDownloadFile> ();
 			}
 		}
@@ -105,7 +106,10 @@ namespace iOSHelpers
 		public static BackgroundDownload Download(Uri url, string destination)
 		{
 			var download = new BackgroundDownload ();
+			//We dont want to await this. Just get it started
+			#pragma warning disable 4014
 			download.DownloadFileAsync (url, destination);
+			#pragma warning restore 4014
 			return download;
 		}
 		internal static void AddController(string url, BackgroundDownload controller)
@@ -184,9 +188,6 @@ namespace iOSHelpers
 		{
 
 			NSFileManager fileManager = NSFileManager.DefaultManager;
-
-			var URLs = fileManager.GetUrls (NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User);
-			NSUrl documentsDictionry = URLs [0];
 			var url = downloadTask.OriginalRequest.Url.AbsoluteString;
 			NSError errorCopy = null;
 			if(Files.ContainsKey(url))

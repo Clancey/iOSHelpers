@@ -2,27 +2,50 @@ using System;
 using MonoTouch.UIKit;
 using MonoTouch.CoreImage;
 using System.Drawing;
+using MonoTouch.CoreGraphics;
+using System.Threading.Tasks;
 
 namespace iOSHelpers
 {
 	public static class ImageExtensions
 	{
+		public static Task<UIImage> BlurAsync(this UIImage image, float radius)
+		{
+			return Task.Factory.StartNew (() => image.Blur(radius));
+		}
+
+		static CIContext context;
 		public static UIImage Blur(this UIImage image, float radius)
 		{
-			try{
-				CIImage imageToBlur = CIImage.FromCGImage(image.CGImage);
+			if (image == null)
+				return image;
+			try
+			{
+				var imageToBlur = CIImage.FromCGImage(image.CGImage);
+
+				if(imageToBlur == null)
+					return image;
+				var transform = new CIAffineClamp();
+				transform.Transform = CGAffineTransform.MakeIdentity();
+				transform.Image = imageToBlur;
+
+
 				var gaussianBlurFilter = new CIGaussianBlur();
 
-				gaussianBlurFilter.Image = imageToBlur;
+				gaussianBlurFilter.Image = transform.OutputImage;
 				gaussianBlurFilter.Radius = radius;
-				CIContext context = CIContext.FromOptions(null);
-				CIImage resultImage = gaussianBlurFilter.OutputImage;
+				if (context == null)
+					context = CIContext.FromOptions(null);
 
-				UIImage finalImage = UIImage.FromImage(context.CreateCGImage(resultImage, new RectangleF(PointF.Empty,image.Size)), 1, UIImageOrientation.Up);
+				var resultImage = gaussianBlurFilter.OutputImage;
+
+				var finalImage = UIImage.FromImage(context.CreateCGImage(resultImage, new RectangleF(PointF.Empty, image.Size)), 1, UIImageOrientation.Up);
 				return finalImage;
+
 			}
-			catch(Exception ex) {
-				Console.WriteLine (ex);
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
 				return image;
 			}
 		}

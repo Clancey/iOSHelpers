@@ -19,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -57,5 +58,9 @@
     <Compile Include="BackgroundDownloadManager.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\NSObjectExtensions.cs" />
+    <Compile Include="Extensions\TableViewExtensions.cs" />
+    <Compile Include="UIBlurView.cs" />
+    <Compile Include="SimpleAlertView.cs" />
+    <Compile Include="UIBorderedButton.cs" />
   </ItemGroup>
 </Project>

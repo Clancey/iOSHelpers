@@ -13,12 +13,14 @@ namespace iOSHelpers
 		{
 			toolbar = new UIToolbar {
 				Opaque = true,
+				BarStyle = UIBarStyle.Black,
+				Translucent = true,
 			};
 			this.Layer.AddSublayer(blurLayer = toolbar.Layer);
 
 			accentView = new UIView {
-				BackgroundColor = this.TintColor,
-				Alpha = .7f,
+				//BackgroundColor = this.TintColor,
+				Alpha = .25f,
 				Opaque = false
 			};
 
@@ -30,7 +32,8 @@ namespace iOSHelpers
 		{
 			base.LayoutSubviews ();
 			var bounds = Bounds;
-			accentLayer.Frame = blurLayer.Frame = bounds;
+			accentLayer.Frame = 
+				blurLayer.Frame = bounds;
 		}
 		public float AccentColorIntensity
 		{
@@ -42,7 +45,7 @@ namespace iOSHelpers
 				return base.TintColor;
 			}
 			set {
-				base.TintColor = toolbar.BarTintColor = accentView.BackgroundColor = value;
+				base.TintColor = toolbar.TintColor = accentView.BackgroundColor = value;
 			}
 		}
 

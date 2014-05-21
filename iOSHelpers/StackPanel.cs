@@ -49,9 +49,9 @@ namespace iOSHelpers
 
 		public override void LayoutSubviews ()
 		{
-
+			base.LayoutSubviews ();
 			float h = padding;
-			var width = (this.Bounds.Width / columns) - (padding * 2);
+			var width = ((this.Bounds.Width - padding) / columns) - padding;
 			float columnH = 0;
 			for (int i = 0; i < Subviews.Length; i++) {
 				var col =  (i % columns);

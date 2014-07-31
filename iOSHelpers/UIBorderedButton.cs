@@ -1,5 +1,6 @@
 ﻿using System;
 using iOSHelpers;
+using MonoTouch.Foundation;
 
 namespace MonoTouch.UIKit
 {
@@ -14,7 +15,7 @@ namespace MonoTouch.UIKit
 			TitleColor = TintColor;
 			BorderWidth = .5f;
 			CornerRadius = 5f;
-			TitleLabel.AddObserver (this,new MonoTouch.Foundation.NSString("text"), MonoTouch.Foundation.NSKeyValueObservingOptions.Old | MonoTouch.Foundation.NSKeyValueObservingOptions.New,IntPtr.Zero);
+			TitleLabel.AddObserver (this,(NSString)"text", MonoTouch.Foundation.NSKeyValueObservingOptions.Old | MonoTouch.Foundation.NSKeyValueObservingOptions.New,IntPtr.Zero);
 		}
 
 		public float BorderWidth
@@ -26,6 +27,12 @@ namespace MonoTouch.UIKit
 		{
 			get{ return Layer.CornerRadius; }
 			set{ Layer.CornerRadius = value; }
+		}
+
+		protected override void Dispose (bool disposing)
+		{
+			this.InvokeOnMainThread (() => TitleLabel.RemoveObserver (this, (NSString)"text"));
+			base.Dispose (disposing);
 		}
 	
 		public override void ObserveValue (MonoTouch.Foundation.NSString keyPath, MonoTouch.Foundation.NSObject ofObject, MonoTouch.Foundation.NSDictionary change, IntPtr context)

@@ -2,6 +2,7 @@
 using MonoTouch.UIKit;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace iOSHelpers
 {
@@ -9,7 +10,7 @@ namespace iOSHelpers
 	{
 		Dictionary<int,Action> dict = new Dictionary<int, Action>();
 		Dictionary<int,UIColor> colors = new Dictionary<int, UIColor> ();
-		public SimpleAlertView (string title, string message) 
+		public SimpleAlertView (string title, string message)
 		{
 			Title = title;
 			Message = message;
@@ -18,6 +19,8 @@ namespace iOSHelpers
 				Action a;
 				if (dict.TryGetValue (e.ButtonIndex, out a) && a != null)
 					a ();
+				if(tcs != null)
+					tcs.TrySetResult(e.ButtonIndex);
 			};
 //			this.Presented += (object sender, EventArgs e) => {
 //				foreach(UIButton b in Subviews.Where(x=> x is UIButton))
@@ -39,6 +42,12 @@ namespace iOSHelpers
 //				}
 //			};
 		}
+		public override void Show ()
+		{
+			if (this.ButtonCount == 0)
+				this.Add ("Ok", null);
+			base.Show ();
+		}
 
 		public int Add(string title, Action action)
 		{
@@ -53,6 +62,21 @@ namespace iOSHelpers
 			dict.Add (index, action);
 			colors.Add(index,color);
 			return index;
+		}
+		TaskCompletionSource<int> tcs;
+		public async Task<int> ClickedAsync()
+		{
+			tcs = new TaskCompletionSource<int> ();
+
+			return await tcs.Task;
+		}
+
+		public string TextEntryValue
+		{
+			get{
+				var tb = GetTextField (0);
+				return tb != null ? tb.Text : "";
+			}
 		}
 	}
 }

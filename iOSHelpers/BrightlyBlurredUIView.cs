@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.CoreAnimation;
-using MonoTouch.UIKit;
+using CoreAnimation;
+using UIKit;
 
 namespace iOSHelpers
 {
@@ -35,7 +35,7 @@ namespace iOSHelpers
 			accentLayer.Frame = 
 				blurLayer.Frame = bounds;
 		}
-		public float AccentColorIntensity
+		public nfloat AccentColorIntensity
 		{
 			get{ return accentView.Alpha; }
 			set{ accentView.Alpha = value; }

@@ -1,7 +1,7 @@
 using System;
-using MonoTouch.Foundation;
+using Foundation;
 using System.Threading.Tasks;
-using MonoTouch.UIKit;
+using UIKit;
 using System.Collections.Generic;
 
 namespace iOSHelpers
@@ -25,7 +25,7 @@ namespace iOSHelpers
 
 		NSUrlSessionDownloadTask downloadTask;
 		static NSUrlSession session;
-		public static NSAction BackgroundSessionCompletionHandler;
+		public static Action BackgroundSessionCompletionHandler;
 
 		public async Task DownloadFileAsync (Uri url, string destination)
 		{

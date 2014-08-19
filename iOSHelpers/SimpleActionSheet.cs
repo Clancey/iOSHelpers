@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
+using UIKit;
 using System.Linq;
 using System.Collections;
 
@@ -14,14 +14,14 @@ namespace iOSHelpers
 		{
 			Clicked += (object sender, UIButtonEventArgs e) => {
 				Action a;
-				if (dict.TryGetValue (e.ButtonIndex, out a) && a != null)
+				if (dict.TryGetValue ((int)e.ButtonIndex, out a) && a != null)
 					a ();
 			};
 			WillPresent += (object sender, EventArgs e) => {
 				foreach(UIButton b in Subviews.Where(x=> x is UIButton))
 				{
 					UIColor color;
-					if(!colors.TryGetValue(b.Tag -1,out color))
+					if(!colors.TryGetValue((int)b.Tag -1,out color))
 						continue;
 					b.SetTitleColor(color, UIControlState.Normal);
 				}
@@ -30,14 +30,14 @@ namespace iOSHelpers
 
 		public int Add(string title, Action action)
 		{
-			var index = AddButton (title);
+			var index = (int)AddButton (title);
 			dict.Add (index, action);
 			return index;
 		}
 
 		public int Add(string title, UIColor color, Action action)
 		{
-			var index = AddButton (title);
+			var index = (int)AddButton (title);
 			dict.Add (index, action);
 			colors.Add(index,color);
 			return index;

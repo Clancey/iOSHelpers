@@ -1,5 +1,5 @@
 using System;
-using MonoTouch.UIKit;
+using UIKit;
 using System.Drawing;
 using System.Collections;
 
@@ -35,9 +35,9 @@ namespace iOSHelpers
 			this.BackgroundColor = UIColor.Clear;
 		}
 
-		float padding = 10;
+		nfloat padding = 10;
 
-		public float Padding {
+		public nfloat Padding {
 			get{ return padding;}
 			set { 
 				if (padding == value)
@@ -50,9 +50,9 @@ namespace iOSHelpers
 		public override void LayoutSubviews ()
 		{
 			base.LayoutSubviews ();
-			float h = padding;
+			var h = padding;
 			var width = ((this.Bounds.Width - padding) / columns) - padding;
-			float columnH = 0;
+			nfloat columnH = 0;
 			for (int i = 0; i < Subviews.Length; i++) {
 				var col =  (i % columns);
 				var view = Subviews[i];
@@ -61,7 +61,8 @@ namespace iOSHelpers
 				frame.Y = h;
 				frame.Width = width;
 				view.Frame = frame;
-				columnH = Math.Max(frame.Bottom + padding,columnH);
+
+				columnH = NMath.Max(frame.Bottom + padding,columnH);
 				if(col + 1 == columns)
 					h = columnH;
 			}

@@ -45,7 +45,7 @@ namespace iOSHelpers
 		}
 		public static UIView Pulse (this UIView view,float max)
 		{
-			var transformAnimation = CAKeyFrameAnimation.GetFromKeyPath("transform");	
+			var transformAnimation = CAKeyFrameAnimation.FromKeyPath("transform");	
 			transformAnimation.CalculationMode = CAAnimation.AnimationPaced;
 			transformAnimation.FillMode = CAFillMode.Forwards;
 			transformAnimation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseOut);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UIKit;
 using System.Linq;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace iOSHelpers
 {
@@ -12,7 +13,9 @@ namespace iOSHelpers
 		Dictionary<int,UIColor> colors = new Dictionary<int, UIColor> ();
 		public SimpleActionSheet ()
 		{
-			Clicked += (object sender, UIButtonEventArgs e) => {
+			Clicked += async (object sender, UIButtonEventArgs e) => {
+				//iOS8 doesnt let you present a new screen until the old one is gone, This fixes that issue.
+				await Task.Delay(10);
 				Action a;
 				if (dict.TryGetValue ((int)e.ButtonIndex, out a) && a != null)
 					a ();

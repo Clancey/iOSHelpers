@@ -4,11 +4,17 @@ using MonoTouch.Foundation;
 
 namespace MonoTouch.UIKit
 {
+	[Register("UIBorderedButton")]
 	public class UIBorderedButton : SimpleButton
 	{
 		public UIBorderedButton()
 		{
 			init ();
+		}
+
+		public UIBorderedButton(IntPtr handle) : base(handle)
+		{
+
 		}
 		void init()
 		{
@@ -98,6 +104,7 @@ namespace MonoTouch.UIKit
 			frame.Width += 10;
 			Frame = frame;
 		}
+
 	}
 }
 

@@ -5,8 +5,22 @@ namespace iOSHelpers
 {
 	public class SimpleButton : UIButton
 	{
+		public SimpleButton(IntPtr handle) : base(handle)
+		{
+			init ();
+		}
+
+		public SimpleButton(MonoTouch.Foundation.NSCoder coder) : base(coder)
+		{
+			init ();
+		}
 		public SimpleButton ()
 		{
+			init ();
+		}
+		void init()
+		{
+
 			this.TouchUpInside += (object sender, EventArgs e) => {
 				if (Tapped != null)
 					Tapped (this);

@@ -63,7 +63,7 @@ namespace iOSHelpers
 		{
 			public string Url { get; set; }
 			public string Destination { get; set; }
-			public float Percent { get; set; }
+			public nfloat Percent { get; set; }
 			public string Error { get; internal set; }
 			public FileStatus Status {get;set;}
 			public enum FileStatus{
@@ -144,7 +144,7 @@ namespace iOSHelpers
 					Tasks.Remove (url);
 			}
 		}
-		internal static void UpdateProgress(NSUrlSessionDownloadTask downloadTask, float progress)
+		internal static void UpdateProgress(NSUrlSessionDownloadTask downloadTask, nfloat progress)
 		{
 			try{
 				var url = downloadTask.OriginalRequest.Url.AbsoluteString;
@@ -157,7 +157,7 @@ namespace iOSHelpers
 			}
 
 		}
-		internal static void UpdateProgress(string url, float progress)
+		internal static void UpdateProgress(string url, nfloat progress)
 		{
 			var controllers = BackgroundDownloadManager.GetControllers (url);
 			controllers.ForEach (x => Device.EnsureInvokedOnMainThread (() => x.Progress = progress));
@@ -235,7 +235,7 @@ namespace iOSHelpers
 		{
 			if (error != null)
 				Console.WriteLine (error.LocalizedDescription);
-			float progress = task.BytesReceived / (float)task.BytesExpectedToReceive;
+			nfloat progress = task.BytesReceived / (nfloat)task.BytesExpectedToReceive;
 			var url = task.OriginalRequest.Url.AbsoluteString;
 			DownloadTasks.Remove (url);
 			UpdateProgress (url, progress);

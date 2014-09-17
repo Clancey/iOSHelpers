@@ -31,7 +31,7 @@ namespace iOSHelpers
 //		}
 
 
-		public static UIView AddMotion(this UIView view, float min, float max)
+		public static UIView AddMotion(this UIView view, nfloat min, nfloat max)
 		{
 			view.AddMotionEffect ( new UIInterpolatingMotionEffect ("center.x", UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis) {
 				MinimumRelativeValue = new NSNumber (min),
@@ -43,7 +43,7 @@ namespace iOSHelpers
 			});
 			return view;
 		}
-		public static UIView Pulse (this UIView view,float max)
+		public static UIView Pulse (this UIView view,nfloat max)
 		{
 			var transformAnimation = CAKeyFrameAnimation.FromKeyPath("transform");	
 			transformAnimation.CalculationMode = CAAnimation.AnimationPaced;

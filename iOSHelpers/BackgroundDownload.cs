@@ -52,16 +52,16 @@ namespace iOSHelpers
 
 		string url;
 
-		public event Action<float> ProgressChanged;
+		public event Action<nfloat> ProgressChanged;
 
-		float progress;
+		nfloat progress;
 
-		public float Progress {
+		public nfloat Progress {
 			get {
 				return progress;
 			}
 			internal set {
-				if (Math.Abs (progress - value) < float.Epsilon)
+				if (Math.Abs (progress - value) < nfloat.Epsilon)
 					return;
 				progress = value;
 				if (ProgressChanged != null)
@@ -89,7 +89,7 @@ namespace iOSHelpers
 
 			public override void DidWriteData (NSUrlSession session, NSUrlSessionDownloadTask downloadTask, long bytesWritten, long totalBytesWritten, long totalBytesExpectedToWrite)
 			{
-				float progress = totalBytesWritten / (float)totalBytesExpectedToWrite;
+				nfloat progress = totalBytesWritten / (nfloat)totalBytesExpectedToWrite;
 				Console.WriteLine (string.Format ("DownloadTask: {0}  progress: {1}", downloadTask.Handle.ToString (), progress));
 				BackgroundDownloadManager.UpdateProgress (downloadTask, progress);
 			}

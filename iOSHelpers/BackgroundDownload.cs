@@ -85,7 +85,7 @@ namespace iOSHelpers
 		}
 
 		public static string Identifier = "async.background.downloader";
-
+		public static string SharedContainerIdentifier { get; set; }
 		static NSUrlSession InitBackgroundSession ()
 		{
 			return InitBackgroundSession (Identifier);
@@ -95,6 +95,8 @@ namespace iOSHelpers
 		{
 			Console.WriteLine ("InitBackgroundSession");
 			using (var configuration = NSUrlSessionConfiguration.BackgroundSessionConfiguration (identifier)) {
+				if (!string.IsNullOrEmpty (SharedContainerIdentifier))
+					configuration.SharedContainerIdentifier = SharedContainerIdentifier;
 				return NSUrlSession.FromConfiguration (configuration, new UrlSessionDelegate (), null);
 			}
 		}

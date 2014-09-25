@@ -55,6 +55,7 @@
     <Compile Include="UIBlurView.cs" />
     <Compile Include="SimpleAlertView.cs" />
     <Compile Include="UIBorderedButton.cs" />
+    <Compile Include="SimpleAlertActionSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

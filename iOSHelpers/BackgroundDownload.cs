@@ -25,7 +25,6 @@ namespace iOSHelpers
 
 		NSUrlSessionDownloadTask downloadTask;
 		static NSUrlSession session;
-		public static Action BackgroundSessionCompletionHandler;
 
 		public async Task DownloadFileAsync (Uri url, string destination)
 		{
@@ -70,10 +69,32 @@ namespace iOSHelpers
 			}
 		}
 
+		static Dictionary<string,NSUrlSession> backgroundSessions = new Dictionary<string, NSUrlSession>();
+		static Dictionary<string,Action> backgroundSessionCompletion = new Dictionary<string, Action>();
+		public static void RepairFromBackground(string sessionIdentifier,Action action)
+		{
+			if (!backgroundSessions.ContainsKey (sessionIdentifier)) {
+				backgroundSessions [sessionIdentifier] = InitBackgroundSession (sessionIdentifier);
+				backgroundSessionCompletion [sessionIdentifier] = action;
+			}
+		}
+		static void CompletBackgroundSession(string identifier)
+		{
+			backgroundSessions.Remove (identifier);
+			backgroundSessionCompletion.Remove (identifier);
+		}
+
+		public static string Identifier = "async.background.downloader";
+
 		static NSUrlSession InitBackgroundSession ()
 		{
+			return InitBackgroundSession (Identifier);
+		}
+
+		static NSUrlSession InitBackgroundSession (string identifier)
+		{
 			Console.WriteLine ("InitBackgroundSession");
-			using (var configuration = NSUrlSessionConfiguration.BackgroundSessionConfiguration ("async.background.downloader")) {
+			using (var configuration = NSUrlSessionConfiguration.BackgroundSessionConfiguration (identifier)) {
 				return NSUrlSession.FromConfiguration (configuration, new UrlSessionDelegate (), null);
 			}
 		}
@@ -120,9 +141,10 @@ namespace iOSHelpers
 			public override void DidFinishEventsForBackgroundSession (NSUrlSession session)
 			{
 				Console.WriteLine ("All tasks are finished");
-				if (BackgroundSessionCompletionHandler != null)
-					BackgroundSessionCompletionHandler ();
-				BackgroundSessionCompletionHandler = null;
+				Action action;
+				if (backgroundSessionCompletion.TryGetValue (session.Configuration.Identifier, out action) && action != null)
+					action ();
+				CompletBackgroundSession (session.Configuration.Identifier);
 			}
 		}
 	}

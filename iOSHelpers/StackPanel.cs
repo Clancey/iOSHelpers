@@ -1,7 +1,8 @@
 using System;
 using UIKit;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections;
+using CoreGraphics;
 
 namespace iOSHelpers
 {
@@ -25,7 +26,7 @@ namespace iOSHelpers
 			init ();
 		}
 
-		public StackPanel (RectangleF rect) : base(rect)
+		public StackPanel (CGRect rect) : base(rect)
 		{
 			init ();
 		}

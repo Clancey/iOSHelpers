@@ -1,7 +1,7 @@
 using System;
 using UIKit;
 using CoreImage;
-using System.Drawing;
+using CoreGraphics;
 using CoreGraphics;
 using System.Threading.Tasks;
 
@@ -39,7 +39,7 @@ namespace iOSHelpers
 
 				var resultImage = gaussianBlurFilter.OutputImage;
 
-				var finalImage = UIImage.FromImage(context.CreateCGImage(resultImage, new CGRect(PointF.Empty, image.Size)), 1, UIImageOrientation.Up);
+				var finalImage = UIImage.FromImage(context.CreateCGImage(resultImage, new CGRect(CGPoint.Empty, image.Size)), 1, UIImageOrientation.Up);
 				return finalImage;
 
 			}

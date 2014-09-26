@@ -10,6 +10,7 @@ namespace iOSHelpers
 {
 	public static class BackgroundDownloadManager
 	{
+		public static string BaseDir = Directory.GetParent (Environment.GetFolderPath (Environment.SpecialFolder.Personal)).ToString ();
 		public class CompletedArgs : EventArgs
 		{
 			public BackgroundDownloadFile File { get; set; }
@@ -17,6 +18,9 @@ namespace iOSHelpers
 		public static event EventHandler<CompletedArgs> FileCompleted;
 		static Dictionary<string,BackgroundDownloadFile> Files = new Dictionary<string,BackgroundDownloadFile> ();
 		private static string stateFile = Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), "downloaderState");
+
+		public static Action<Dictionary<string,BackgroundDownloadFile>> SaveState { get; set; }
+		public static Func<Dictionary<string,BackgroundDownloadFile>> LoadState { get; set; }
 		static BackgroundDownloadManager()
 		{
 			try{
@@ -33,8 +37,24 @@ namespace iOSHelpers
 			var completed = BackgroundDownloadManager.CurrentDownloads.Where (x => x.Status == BackgroundDownloadManager.BackgroundDownloadFile.FileStatus.Completed).ToList ();
 			completed.ForEach(x=> Remove(x.Url));
 		}
+
+		public static void Reload ()
+		{
+			loadState ();
+		}
+
 		private static void loadState()
 		{
+			if(LoadState != null)
+			{
+				try{
+					Files = LoadState();
+					return;
+				}
+				catch (Exception e){
+					Console.WriteLine(e);
+				}
+			}
 			if(!File.Exists(stateFile))
 			{
 				Files = new Dictionary<string,BackgroundDownloadFile> ();
@@ -51,6 +71,16 @@ namespace iOSHelpers
 		private static void saveState()
 		{
 			lock (locker) {
+				if(SaveState != null)
+				{
+					try{
+						SaveState(Files);
+						return;
+					}
+					catch (Exception e){
+						Console.WriteLine(e);
+					}
+				}
 				var formatter = new BinaryFormatter ();
 				using (var stream = new FileStream (stateFile, FileMode.Create, FileAccess.Write, FileShare.None)) {
 					formatter.Serialize (stream, Files);
@@ -61,9 +91,10 @@ namespace iOSHelpers
 		[Serializable]
 		public class BackgroundDownloadFile
 		{
+			public string SessionId { get; set; }
 			public string Url { get; set; }
 			public string Destination { get; set; }
-			public nfloat Percent { get; set; }
+			public float Percent { get; set; }
 			public string Error { get; internal set; }
 			public FileStatus Status {get;set;}
 			public enum FileStatus{
@@ -71,6 +102,7 @@ namespace iOSHelpers
 				Completed,
 				Error,
 				Canceled,
+				Temporary,
 			}
 			public override string ToString ()
 			{
@@ -121,12 +153,18 @@ namespace iOSHelpers
 			BackgroundDownloadFile file;
 			if (!Files.TryGetValue (url, out file)) {
 				Files [url] = file = new BackgroundDownloadFile {
-					Destination = controller.Destination,
+					Destination = MakeRelativePath(BaseDir, controller.Destination),
 					Url = url,
+					SessionId = controller.SessionId
 				};
 				saveState ();
 			}
 
+		}
+
+		public static String MakeRelativePath(String fromPath, String toPath)
+		{
+			return toPath.Replace (fromPath, "");
 		}
 
 		static void RemoveUrl(string url)
@@ -150,7 +188,7 @@ namespace iOSHelpers
 				var url = downloadTask.OriginalRequest.Url.AbsoluteString;
 				DownloadTasks [url] = downloadTask;
 				UpdateProgress (url, progress);
-				Files[url].Percent = progress;
+				Files[url].Percent = (float)progress;
 			}
 			catch(Exception ex) {
 				Console.WriteLine (ex);
@@ -184,6 +222,7 @@ namespace iOSHelpers
 			}
 			RemoveUrl (url);
 		}
+		public static bool AutoProcess = true;
 		public static void Completed(NSUrlSessionTask downloadTask,NSUrl location)
 		{
 
@@ -193,15 +232,19 @@ namespace iOSHelpers
 			if(Files.ContainsKey(url))
 			{
 				var file = Files [url];
-				file.Status = BackgroundDownloadFile.FileStatus.Completed;
+				file.Status = BackgroundDownloadFile.FileStatus.Temporary;
 				file.Percent = 1;
 				NSUrl originalURL = downloadTask.OriginalRequest.Url;
-				NSUrl destinationURL = NSUrl.FromFilename (file.Destination);
+				var dest = Path.Combine (BaseDir + file.Destination);
+				NSUrl destinationURL = NSUrl.FromFilename (dest);
 				NSError removeCopy;
 
 				fileManager.Remove (destinationURL, out removeCopy);
+				Console.WriteLine ("Trying to copy to {0}", dest);
 				var success = fileManager.Copy (location, destinationURL, out errorCopy);
-				Console.WriteLine ("Success: {0}", success);
+				if (success)
+					file.Status = BackgroundDownloadFile.FileStatus.Completed;
+				Console.WriteLine ("Success: {0} {1}", success,errorCopy);
 			}
 			else
 				Console.WriteLine ("Could not find the file!");

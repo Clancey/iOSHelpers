@@ -96,6 +96,7 @@ namespace iOSHelpers
 			public string Destination { get; set; }
 			public float Percent { get; set; }
 			public string Error { get; internal set; }
+			public string TempLocation {get;set;}
 			public FileStatus Status {get;set;}
 			public enum FileStatus{
 				Downloading,
@@ -234,6 +235,18 @@ namespace iOSHelpers
 				var file = Files [url];
 				file.Status = BackgroundDownloadFile.FileStatus.Temporary;
 				file.Percent = 1;
+				if (!AutoProcess) {
+					var sharedFolder = fileManager.GetContainerUrl (BackgroundDownload.SharedContainerIdentifier);
+					fileManager.CreateDirectory (sharedFolder, true, null,out errorCopy);
+					var fileName = Path.GetFileName (file.Destination);
+					var newTemp = Path.Combine (sharedFolder.RelativePath,fileName);
+
+					var success1 = fileManager.Copy (location, NSUrl.FromFilename(newTemp), out errorCopy);
+					Console.WriteLine ("Success: {0} {1}", success1,errorCopy);
+					file.TempLocation = fileName;
+					saveState ();
+					return;
+				}
 				NSUrl originalURL = downloadTask.OriginalRequest.Url;
 				var dest = Path.Combine (BaseDir + file.Destination);
 				NSUrl destinationURL = NSUrl.FromFilename (dest);

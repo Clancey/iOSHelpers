@@ -46,7 +46,9 @@
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="StackPanel.cs" />
-    <Compile Include="SimpleButton.cs" />
+    <Compile Include="SimpleButton.cs">
+      <DependentUpon>SimpleAlertView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Device.cs" />
     <Compile Include="BackgroundDownloadManager.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />

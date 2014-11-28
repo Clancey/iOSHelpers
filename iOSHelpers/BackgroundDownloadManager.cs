@@ -16,7 +16,17 @@ namespace iOSHelpers
 			public BackgroundDownloadFile File { get; set; }
 		}
 		public static event EventHandler<CompletedArgs> FileCompleted;
-		static Dictionary<string,BackgroundDownloadFile> Files = new Dictionary<string,BackgroundDownloadFile> ();
+		static Dictionary<string, BackgroundDownloadFile> files;
+		internal static Dictionary<string, BackgroundDownloadFile> Files {
+			get {
+				if (files == null)
+					loadState ();
+				return files;
+			}
+			set {
+				files = value;
+			}
+		}
 		private static string stateFile = Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), "downloaderState");
 
 		public static Action<Dictionary<string,BackgroundDownloadFile>> SaveState { get; set; }
@@ -45,26 +55,25 @@ namespace iOSHelpers
 
 		private static void loadState()
 		{
-			if(LoadState != null)
-			{
-				try{
-					Files = LoadState();
+			lock (locker) {
+				if (LoadState != null) {
+					try {
+						LoadState ();
+						return;
+					} catch (Exception e) {
+						Console.WriteLine (e);
+					}
+				}
+				if (!File.Exists (stateFile)) {
+					Files = new Dictionary<string,BackgroundDownloadFile> ();
 					return;
 				}
-				catch (Exception e){
-					Console.WriteLine(e);
-				}
-			}
-			if(!File.Exists(stateFile))
-			{
-				Files = new Dictionary<string,BackgroundDownloadFile> ();
-				return;
-			}
 
-			var formatter = new BinaryFormatter();
-			using(var stream = new FileStream(stateFile,FileMode.Open, FileAccess.Read, FileShare.Read)){
-				Files = (Dictionary<string,BackgroundDownloadFile>) formatter.Deserialize(stream);
-				stream.Close();
+				var formatter = new BinaryFormatter ();
+				using (var stream = new FileStream (stateFile, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+					Files = (Dictionary<string,BackgroundDownloadFile>)formatter.Deserialize (stream);
+					stream.Close ();
+				}
 			}
 
 		}
@@ -145,6 +154,18 @@ namespace iOSHelpers
 			#pragma warning restore 4014
 			return download;
 		}
+		public static Action<BackgroundDownloadFile> DownloadError {get;set;}
+		public static void Errored(NSUrlSessionDownloadTask downloadTask)
+		{
+			BackgroundDownloadFile download;
+			var url = downloadTask.OriginalRequest.Url.AbsoluteString;
+			if (!Files.TryGetValue (url, out download))
+				return;
+			if (DownloadError != null)
+				DownloadError (download);
+
+			RemoveUrl (url);
+		}
 		internal static void AddController(string url, BackgroundDownload controller)
 		{
 			lock (locker) {
@@ -153,13 +174,14 @@ namespace iOSHelpers
 			}
 			BackgroundDownloadFile file;
 			if (!Files.TryGetValue (url, out file)) {
+				Console.WriteLine ("Adding URL {0}", url);
 				Files [url] = file = new BackgroundDownloadFile {
 					Destination = MakeRelativePath(BaseDir, controller.Destination),
 					Url = url,
 					SessionId = controller.SessionId
 				};
-				saveState ();
 			}
+			saveState ();
 
 		}
 
@@ -203,6 +225,7 @@ namespace iOSHelpers
 		}
 		public static void Remove(string url)
 		{
+			Console.WriteLine ("Removing URL: {0}", url);
 			BackgroundDownloadFile file;
 			if (Files.TryGetValue (url,out file)) {
 				if (file.Status == BackgroundDownloadFile.FileStatus.Downloading)
@@ -229,7 +252,11 @@ namespace iOSHelpers
 
 			NSFileManager fileManager = NSFileManager.DefaultManager;
 			var url = downloadTask.OriginalRequest.Url.AbsoluteString;
+			Console.WriteLine ("Looking for: {0}",url);
 			NSError errorCopy = null;
+			foreach (var f in Files) {
+				Console.WriteLine ("Existing file: {0}", f.Key);
+			}
 			if(Files.ContainsKey(url))
 			{
 				var file = Files [url];

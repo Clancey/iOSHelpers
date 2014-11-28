@@ -19,6 +19,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchProfiling>true</MtouchProfiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -40,7 +42,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="BackgroundDownload.cs" />
     <Compile Include="SimpleActionSheet.cs" />
     <Compile Include="BrightlyBlurredUIView.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
@@ -50,7 +51,6 @@
       <DependentUpon>SimpleAlertView.cs</DependentUpon>
     </Compile>
     <Compile Include="Device.cs" />
-    <Compile Include="BackgroundDownloadManager.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\NSObjectExtensions.cs" />
     <Compile Include="Extensions\TableViewExtensions.cs" />

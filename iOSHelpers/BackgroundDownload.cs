@@ -91,6 +91,8 @@ namespace iOSHelpers
 		static Dictionary<string,Action> backgroundSessionCompletion = new Dictionary<string, Action>();
 		public static async void RepairFromBackground(string sessionIdentifier,Action action)
 		{
+			//REset the files so they load from the disc if it was restored from a group session.
+			BackgroundDownloadManager.Reload ();
 			if (!backgroundSessions.ContainsKey (sessionIdentifier)) {
 				backgroundSessions [sessionIdentifier] = InitBackgroundSession (sessionIdentifier);
 				backgroundSessionCompletion [sessionIdentifier] = action;
@@ -117,29 +119,40 @@ namespace iOSHelpers
 					configuration.SharedContainerIdentifier = SharedContainerIdentifier;
 				var ses = NSUrlSession.FromConfiguration (configuration, new UrlSessionDelegate (), null);
 				ses.GetTasks ((data, upload, downloads) => {
-					List<BackgroundDownload> restoredDownloads = new List<BackgroundDownload>();
-					foreach(var d in downloads)
-					{
-						TaskCompletionSource<bool> Tcs;
-						var url = d.OriginalRequest.Url.AbsoluteString;
-						if (!BackgroundDownloadManager.Tasks.TryGetValue (url, out Tcs)) {
-							Tcs = new TaskCompletionSource<bool> ();
-							BackgroundDownloadManager.Tasks.Add (url, Tcs);
-							var download = new BackgroundDownload (d) {
-								Tcs = Tcs,
-								SessionId = ses.Configuration.Identifier,
-							};
-							BackgroundDownloadManager.AddController (url, download);
-							restoredDownloads.Add(download);
-						}
-
-					}
-					if(RestoredDownloads != null)
-					{
-						RestoredDownloads(restoredDownloads);
-					}
+					restoreTasks(ses,data,upload,downloads);
 				});
 				return ses;
+			}
+		}
+
+		async static void restoreTasks(NSUrlSession ses, NSUrlSessionDataTask[] sessions, NSUrlSessionUploadTask[] uploads, NSUrlSessionDownloadTask[] downloads)
+		{
+			List<BackgroundDownload> restoredDownloads = new List<BackgroundDownload>();
+			foreach(var d in downloads)
+			{
+				var url = d.OriginalRequest.Url.AbsoluteString;
+				if(d.Error != null)
+				{
+					BackgroundDownloadManager.Errored(d);
+				}
+				BackgroundDownload download;
+				BackgroundDownloadManager.BackgroundDownloadFile downloadFile;
+				download = new BackgroundDownload (d) {
+					SessionId = ses.Configuration.Identifier,
+				};
+				foreach(var key in BackgroundDownloadManager.Files)
+				{
+					Console.WriteLine(key.Key);
+				}
+				if(BackgroundDownloadManager.Files.TryGetValue(url, out downloadFile))
+					download.Destination = downloadFile.Destination;
+				BackgroundDownloadManager.AddController (url, download);
+				restoredDownloads.Add(download);
+
+			}
+			if(RestoredDownloads != null)
+			{
+				RestoredDownloads(restoredDownloads);
 			}
 		}
 

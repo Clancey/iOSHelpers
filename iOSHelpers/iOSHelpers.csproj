@@ -58,6 +58,7 @@
     <Compile Include="SimpleAlertView.cs" />
     <Compile Include="UIBorderedButton.cs" />
     <Compile Include="SimpleAlertActionSheet.cs" />
+    <Compile Include="PanaramaViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

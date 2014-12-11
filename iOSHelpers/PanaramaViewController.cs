@@ -119,7 +119,11 @@ namespace iOSHelpers
 					PagingEnabled = true,
 					TranslatesAutoresizingMaskIntoConstraints = false,
 				};
-				scroller.Scrolled += (sender, args) => SetTopScroll ();
+				scroller.Scrolled += (sender, args) => {
+					var scroll = sender as CustomScroller;
+					var p = scroll.Superview as PanaramaView;
+					p.SetScrollToTop ();
+				};
 				scroller.DecelerationEnded += (sender, args) => {
 					var scroll = sender as CustomScroller;
 					var p = scroll.Superview as PanaramaView;

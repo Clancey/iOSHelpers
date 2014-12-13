@@ -122,12 +122,12 @@ namespace iOSHelpers
 				scroller.Scrolled += (sender, args) => {
 					var scroll = sender as CustomScroller;
 					var p = scroll.Superview as PanaramaView;
-					p.SetScrollToTop ();
+					p.SetTopScroll ();
 				};
 				scroller.DecelerationEnded += (sender, args) => {
 					var scroll = sender as CustomScroller;
 					var p = scroll.Superview as PanaramaView;
-					p.SetScrollToTop ();
+					p.SetTopScroll ();
 				};
 				Add (scroller);
 			}

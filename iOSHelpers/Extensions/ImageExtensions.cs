@@ -1,8 +1,8 @@
 using System;
-using MonoTouch.UIKit;
-using MonoTouch.CoreImage;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
+using UIKit;
+using CoreImage;
+using CoreGraphics;
+using CoreGraphics;
 using System.Threading.Tasks;
 
 namespace iOSHelpers
@@ -39,7 +39,7 @@ namespace iOSHelpers
 
 				var resultImage = gaussianBlurFilter.OutputImage;
 
-				var finalImage = UIImage.FromImage(context.CreateCGImage(resultImage, new RectangleF(PointF.Empty, image.Size)), 1, UIImageOrientation.Up);
+				var finalImage = UIImage.FromImage(context.CreateCGImage(resultImage, new CGRect(CGPoint.Empty, image.Size)), 1, UIImageOrientation.Up);
 				return finalImage;
 
 			}

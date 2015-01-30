@@ -1,7 +1,7 @@
 ﻿using System;
-using MonoTouch.UIKit;
+using UIKit;
 
-namespace MonoTouch.UIKit
+namespace UIKit
 {
 	public static class TableViewExtensions
 	{

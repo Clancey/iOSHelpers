@@ -1,8 +1,8 @@
 ﻿using System;
 using iOSHelpers;
-using MonoTouch.Foundation;
+using Foundation;
 
-namespace MonoTouch.UIKit
+namespace UIKit
 {
 	[Register("UIBorderedButton")]
 	public class UIBorderedButton : SimpleButton
@@ -21,15 +21,15 @@ namespace MonoTouch.UIKit
 			TitleColor = TintColor;
 			BorderWidth = .5f;
 			CornerRadius = 5f;
-			TitleLabel.AddObserver (this,(NSString)"text", MonoTouch.Foundation.NSKeyValueObservingOptions.Old | MonoTouch.Foundation.NSKeyValueObservingOptions.New,IntPtr.Zero);
+			TitleLabel.AddObserver (this,(NSString)"text", Foundation.NSKeyValueObservingOptions.Old | Foundation.NSKeyValueObservingOptions.New,IntPtr.Zero);
 		}
 
-		public float BorderWidth
+		public nfloat BorderWidth
 		{
 			get{ return Layer.BorderWidth; }
 			set{ Layer.BorderWidth = value; }
 		}
-		public float CornerRadius
+		public nfloat CornerRadius
 		{
 			get{ return Layer.CornerRadius; }
 			set{ Layer.CornerRadius = value; }
@@ -41,7 +41,7 @@ namespace MonoTouch.UIKit
 			base.Dispose (disposing);
 		}
 	
-		public override void ObserveValue (MonoTouch.Foundation.NSString keyPath, MonoTouch.Foundation.NSObject ofObject, MonoTouch.Foundation.NSDictionary change, IntPtr context)
+		public override void ObserveValue (Foundation.NSString keyPath, Foundation.NSObject ofObject, Foundation.NSDictionary change, IntPtr context)
 		{
 			if (ofObject == TitleLabel)
 				SetColor ();
@@ -64,18 +64,18 @@ namespace MonoTouch.UIKit
 
 		public UIColor SelectedTintColor {get;set;}
 		UIColor orgColor;
-		public override void TouchesBegan (MonoTouch.Foundation.NSSet touches, UIEvent evt)
+		public override void TouchesBegan (Foundation.NSSet touches, UIEvent evt)
 		{
 			orgColor = this.TintColor;
 			TintColor = SelectedTintColor;
 			base.TouchesBegan (touches, evt);
 		}
-		public override void TouchesCancelled (MonoTouch.Foundation.NSSet touches, UIEvent evt)
+		public override void TouchesCancelled (Foundation.NSSet touches, UIEvent evt)
 		{
 			TintColor = orgColor;
 			base.TouchesCancelled (touches, evt);
 		}
-		public override void TouchesEnded (MonoTouch.Foundation.NSSet touches, UIEvent evt)
+		public override void TouchesEnded (Foundation.NSSet touches, UIEvent evt)
 		{
 			TintColor = orgColor;
 			base.TouchesEnded (touches, evt);

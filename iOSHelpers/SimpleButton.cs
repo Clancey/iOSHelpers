@@ -1,5 +1,5 @@
 using System;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace iOSHelpers
 {
@@ -10,7 +10,7 @@ namespace iOSHelpers
 			init ();
 		}
 
-		public SimpleButton(MonoTouch.Foundation.NSCoder coder) : base(coder)
+		public SimpleButton(Foundation.NSCoder coder) : base(coder)
 		{
 			init ();
 		}

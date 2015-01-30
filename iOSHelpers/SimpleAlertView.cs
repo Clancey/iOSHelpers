@@ -1,5 +1,5 @@
 ﻿using System;
-using MonoTouch.UIKit;
+using UIKit;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,8 +8,8 @@ namespace iOSHelpers
 {
 	public class SimpleAlertView : UIAlertView
 	{
-		Dictionary<int,Action> dict = new Dictionary<int, Action>();
-		Dictionary<int,UIColor> colors = new Dictionary<int, UIColor> ();
+		Dictionary<nint,Action> dict = new Dictionary<nint, Action>();
+		Dictionary<nint,UIColor> colors = new Dictionary<nint, UIColor> ();
 		public SimpleAlertView (string title, string message)
 		{
 			Title = title;
@@ -49,24 +49,24 @@ namespace iOSHelpers
 			base.Show ();
 		}
 
-		public int Add(string title, Action action)
+		public nint Add(string title, Action action)
 		{
 			var index = AddButton (title);
 			dict.Add (index, action);
 			return index;
 		}
 
-		public int Add(string title, UIColor color, Action action)
+		public nint Add(string title, UIColor color, Action action)
 		{
 			var index = AddButton (title);
 			dict.Add (index, action);
 			colors.Add(index,color);
 			return index;
 		}
-		TaskCompletionSource<int> tcs;
-		public async Task<int> ClickedAsync()
+		TaskCompletionSource<nint> tcs;
+		public async Task<nint> ClickedAsync()
 		{
-			tcs = new TaskCompletionSource<int> ();
+			tcs = new TaskCompletionSource<nint> ();
 
 			return await tcs.Task;
 		}

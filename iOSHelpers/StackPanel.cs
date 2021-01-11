@@ -47,26 +47,31 @@ namespace iOSHelpers
 				LayoutSubviews ();
 			}
 		}
-
+		public nfloat HeightNeeded { get; private set; }
+		public bool AutoSizeChildren { get; set; }
 		public override void LayoutSubviews ()
 		{
 			base.LayoutSubviews ();
-			var h = padding;
+			var h = padding + this.SafeAreaInsets.Top;
 			var width = ((this.Bounds.Width - padding) / columns) - padding;
 			nfloat columnH = 0;
+			nfloat maxBottom = 0;
 			for (int i = 0; i < Subviews.Length; i++) {
 				var col =  (i % columns);
 				var view = Subviews[i];
+				if (AutoSizeChildren)
+					view.SizeToFit ();
 				var frame = view.Frame;
 				frame.X = padding + ((width + padding) * col);
 				frame.Y = h;
 				frame.Width = width;
 				view.Frame = frame;
-
+				maxBottom = NMath.Max (frame.Bottom, maxBottom);
 				columnH = NMath.Max(frame.Bottom + padding,columnH);
 				if(col + 1 == columns)
 					h = columnH;
 			}
+			HeightNeeded = maxBottom + padding;
 		}
 	}
 }

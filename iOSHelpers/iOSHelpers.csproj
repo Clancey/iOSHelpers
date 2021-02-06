@@ -48,7 +48,6 @@
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="StackPanel.cs" />
     <Compile Include="SimpleButton.cs">
-      <DependentUpon>SimpleAlertView.cs</DependentUpon>
     </Compile>
     <Compile Include="Device.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
@@ -59,6 +58,7 @@
     <Compile Include="UIBorderedButton.cs" />
     <Compile Include="SimpleAlertActionSheet.cs" />
     <Compile Include="PanaramaViewController.cs" />
+    <Compile Include="SimpleEntryAlert.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

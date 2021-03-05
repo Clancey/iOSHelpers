@@ -10,15 +10,19 @@ namespace iOSHelpers
 		readonly string details;
 		readonly string placeholder;
 		private readonly string defaultValue;
+		private readonly string okString;
+		private readonly string cancelString;
 		UIAlertController alertController;
 		UIAlertView alertView;
 
-		public SimpleEntryAlert(string title, string details = "", string placeholder = "", string defaultValue = "")
+		public SimpleEntryAlert(string title, string details = "", string placeholder = "", string defaultValue = "", string okString = "Ok",string cancelString = "Cancel")
 		{
 			this.title = title;
 			this.details = details;
 			this.placeholder = placeholder;
 			this.defaultValue = defaultValue;
+			this.okString = okString;
+			this.cancelString = cancelString;
 			alertController = UIAlertController.Create(title, details, UIAlertControllerStyle.Alert);
 			setupAlertController();
 			
@@ -27,8 +31,8 @@ namespace iOSHelpers
 		void setupAlertController()
 		{
 			UITextField entryField = null;
-			var cancel = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (alert) => { tcs.TrySetCanceled(); });
-			var ok = UIAlertAction.Create("Login", UIAlertActionStyle.Default,
+			var cancel = UIAlertAction.Create(cancelString, UIAlertActionStyle.Cancel, (alert) => { tcs.TrySetCanceled(); });
+			var ok = UIAlertAction.Create(okString, UIAlertActionStyle.Default,
 				a => { tcs.TrySetResult(entryField.Text); });
 
 			alertController.AddTextField(field =>

@@ -21,6 +21,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>true</MtouchDebug>
     <MtouchProfiling>true</MtouchProfiling>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -29,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Tests|iPhoneSimulator' ">
     <Optimize>false</Optimize>
@@ -59,6 +61,7 @@
     <Compile Include="SimpleAlertActionSheet.cs" />
     <Compile Include="PanaramaViewController.cs" />
     <Compile Include="SimpleEntryAlert.cs" />
+    <Compile Include="Extensions\CGRectExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

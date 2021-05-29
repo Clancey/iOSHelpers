@@ -5,24 +5,20 @@ namespace iOSHelpers
 {
 	public class UIBlurView : UIView
 	{
-		UIToolbar toolbar;
-		public UIBlurView ()
+		UIView blurView;
+		public UIBlurView()
 		{
-			BackgroundColor = UIColor.Clear;
-			Add(toolbar = new UIToolbar {
-				Translucent  =true,
-			});
+		
+			var blur = UIBlurEffect.FromStyle(UIBlurEffectStyle.Dark);
+			blurView = new UIVisualEffectView(blur);
+			
+			Add(blurView);
 		}
-		public UIBarStyle Style
+		public override void LayoutSubviews()
 		{
-			get{ return toolbar.BarStyle; }
-			set{ toolbar.BarStyle = value; }
-		}
-
-		public override void LayoutSubviews ()
-		{
-			base.LayoutSubviews ();
-			toolbar.Frame = Bounds;
+			base.LayoutSubviews();
+			if (blurView != null)
+				blurView.Frame = Bounds;
 		}
 	}
 }

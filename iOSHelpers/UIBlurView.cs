@@ -6,10 +6,14 @@ namespace iOSHelpers
 	public class UIBlurView : UIView
 	{
 		UIView blurView;
-		public UIBlurView()
+
+		public UIBlurView() : this (UIBlurEffectStyle.Dark)
+		{
+		}
+		public UIBlurView(UIBlurEffectStyle style)
 		{
 		
-			var blur = UIBlurEffect.FromStyle(UIBlurEffectStyle.Dark);
+			var blur = UIBlurEffect.FromStyle(style);
 			blurView = new UIVisualEffectView(blur);
 			
 			Add(blurView);

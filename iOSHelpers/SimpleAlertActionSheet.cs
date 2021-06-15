@@ -11,7 +11,7 @@ namespace iOSHelpers
 		{
 
 		}
-		public SimpleAlertActionSheet () : base(UIAlertController.Create("","", UIAlertControllerStyle.ActionSheet).Handle )
+		public SimpleAlertActionSheet (string title = "", string message = "", UIAlertControllerStyle style = UIAlertControllerStyle.ActionSheet) : base(UIAlertController.Create(title, message, style).Handle )
 		{
 
 		}

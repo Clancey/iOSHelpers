@@ -12,8 +12,8 @@ namespace iOSHelpers
 		private readonly string defaultValue;
 		private readonly string okString;
 		private readonly string cancelString;
-		UIAlertController alertController;
-		UIAlertView alertView;
+		protected UIAlertController alertController;
+		public UITextField TextField;
 
 		public SimpleEntryAlert(string title, string details = "", string placeholder = "", string defaultValue = "", string okString = "Ok",string cancelString = "Cancel")
 		{
@@ -24,47 +24,42 @@ namespace iOSHelpers
 			this.okString = okString;
 			this.cancelString = cancelString;
 			alertController = UIAlertController.Create(title, details, UIAlertControllerStyle.Alert);
-			setupAlertController();
-			
-		}
 
-		void setupAlertController()
-		{
-			UITextField entryField = null;
 			var cancel = UIAlertAction.Create(cancelString, UIAlertActionStyle.Cancel, (alert) => { tcs.TrySetCanceled(); });
 			var ok = UIAlertAction.Create(okString, UIAlertActionStyle.Default,
-				a => { tcs.TrySetResult(entryField.Text); });
+				a => { tcs.TrySetResult(TextField.Text); });
 
 			alertController.AddTextField(field =>
 			{
 				field.Placeholder = placeholder;
 				field.Text = defaultValue;
-				entryField = field;
+				TextField = field;
 			});
 			alertController.AddAction(ok);
 			alertController.AddAction(cancel);
+
+
 		}
 
 		TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
 
 		public Task<string> GetInput(UIViewController fromController)
 		{
-			if (alertController != null)
-			{
-				fromController.PresentViewControllerAsync(alertController, true);
-			}
-			else
-			{
-				alertView.Show();
-			}
+
+			fromController.PresentViewControllerAsync(alertController, true);
 			return tcs.Task;
 		}
 
+		bool isDisposed;
 		public void Dispose()
 		{
+			if(isDisposed)
+				OnDispose();
+			isDisposed = true;
+		}
+		protected virtual void OnDispose()
+		{
 			alertController?.Dispose();
-			alertView?.DismissWithClickedButtonIndex(alertView.CancelButtonIndex, true);
-			alertView?.Dispose();
 			tcs?.TrySetCanceled();
 			tcs = null;
 		}

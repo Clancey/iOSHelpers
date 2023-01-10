@@ -12,6 +12,8 @@ namespace UIKit
 				return (T)cell;
 			return new T ();
 		}
+		public static T DequeueReusableCell<T>(this UITableView tv) where T : UITableViewCell, new() => tv.DequeueReusableCell<T>(typeof(T).Name);
+		
 	}
 }
 

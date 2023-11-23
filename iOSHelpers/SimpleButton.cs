@@ -53,6 +53,7 @@ namespace iOSHelpers
 		}
 
 		public Action<SimpleButton> Tapped { get; set; }
+		public UIFont Font { get => TitleLabel.Font; set => TitleLabel.Font = value; }
 	}
 }
 

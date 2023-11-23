@@ -208,6 +208,7 @@ namespace iOSHelpers
 
 			public void SetContent ()
 			{
+				
 				if (Parent != null) {
 					nint tag = 0;
 					Parent.ViewControllers.ForEach (x => {
@@ -242,7 +243,7 @@ namespace iOSHelpers
 					if (Parent.TitleColor != null)
 						x.SetTitleColor (Parent.TitleColor, UIControlState.Normal);
 					if (Parent.TitleFont != null)
-						x.Font = Parent.TitleFont;
+						x.TitleLabel.Font = Parent.TitleFont;
 				});
 			}
 		}

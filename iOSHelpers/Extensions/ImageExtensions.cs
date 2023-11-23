@@ -27,12 +27,12 @@ namespace iOSHelpers
 					return image;
 				var transform = new CIAffineClamp();
 				transform.Transform = CGAffineTransform.MakeIdentity();
-				transform.Image = imageToBlur;
+				transform.InputImage = imageToBlur;
 
 
 				var gaussianBlurFilter = new CIGaussianBlur();
 
-				gaussianBlurFilter.Image = transform.OutputImage;
+				gaussianBlurFilter.InputImage = transform.OutputImage;
 				gaussianBlurFilter.Radius = radius;
 				if (context == null)
 					context = CIContext.FromOptions(null);

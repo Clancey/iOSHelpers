@@ -41,7 +41,7 @@ namespace iOSHelpers
 
 		}
 
-		TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
+		protected TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
 
 		public Task<string> GetInput(UIViewController fromController)
 		{
